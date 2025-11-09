@@ -3,54 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Installable Web App</title>
+  <title>PWA Install Demo</title>
 
-  <!-- PWA Manifest -->
+  <!-- Connect to manifest -->
   <link rel="manifest" href="manifest.json">
-
-  <!-- Theme color (affects title bar color on mobile) -->
-  <meta name="theme-color" content="#0a84ff">
+  <meta name="theme-color" content="#0a84ff" />
 
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f0f4f8;
-      color: #333;
       text-align: center;
+      background: #f4f6f8;
       padding: 50px;
     }
-    h1 { color: #0a84ff; }
-    #installBtn {
-      display: none;
-      padding: 12px 24px;
-      font-size: 16px;
-      border: none;
+    button {
       background: #0a84ff;
       color: white;
+      border: none;
       border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 16px;
       cursor: pointer;
-      transition: 0.2s;
+      display: none;
     }
-    #installBtn:hover {
-      background: #006edc;
+    button:hover {
+      background: #0073e6;
     }
   </style>
 </head>
 <body>
-
-  <h1>📱 My Installable Web App</h1>
-  <p>You can install this app like WhatsApp Web.</p>
-
+  <h1>📲 My PWA Install App</h1>
+  <p>Click the install icon <strong>(💻⬇️)</strong> in your browser, or use the button below.</p>
   <button id="installBtn">Install App</button>
 
   <script>
     // Register Service Worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js')
-      .then(() => console.log('✅ Service Worker Registered'));
+        .then(() => console.log('✅ Service Worker Registered'));
     }
 
-    // Handle custom install prompt
+    // Custom install button logic
     let deferredPrompt;
     const installBtn = document.getElementById('installBtn');
 
@@ -65,9 +58,9 @@
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then((choice) => {
         if (choice.outcome === 'accepted') {
-          console.log('App installed');
+          console.log('App installed!');
         } else {
-          console.log('App dismissed');
+          console.log('App dismissed.');
         }
         deferredPrompt = null;
       });
