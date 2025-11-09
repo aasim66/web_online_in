@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Installable Web App</title>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Theme color (affects title bar color on mobile) -->
+  <meta name="theme-color" content="#0a84ff">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+      color: #333;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 { color: #0a84ff; }
+    #installBtn {
+      display: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      background: #0a84ff;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    #installBtn:hover {
+      background: #006edc;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📱 My Installable Web App</h1>
+  <p>You can install this app like WhatsApp Web.</p>
+
+  <button id="installBtn">Install App</button>
+
+  <script>
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+      .then(() => console.log('✅ Service Worker Registered'));
+    }
+
+    // Handle custom install prompt
+    let deferredPrompt;
+    const installBtn = document.getElementById('installBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.style.display = 'inline-block';
+    });
+
+    installBtn.addEventListener('click', () => {
+      installBtn.style.display = 'none';
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choice) => {
+        if (choice.outcome === 'accepted') {
+          console.log('App installed');
+        } else {
+          console.log('App dismissed');
+        }
+        deferredPrompt = null;
+      });
+    });
+  </script>
+</body>
+</html>
