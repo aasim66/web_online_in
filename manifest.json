@@ -1,5 +1,5 @@
 {
-  "name": "My Web App",
+  "name": "My Web Install App",
   "short_name": "MyApp",
   "start_url": "./index.html",
   "display": "standalone",
